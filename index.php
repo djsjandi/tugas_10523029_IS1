@@ -1,104 +1,43 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Aplikasi Nilai Online Unikom</title>
-  <style>
-    body {
-      background-color: #293f50;
-      color: #fff;
-      font-family: sans-serif;
-      margin: 0;
-      padding: 0;
-    }
+<?php
 
-    header {
-      background-color: #212529;
-      padding: 20px;
-      text-align: center;
-    }
+declare(strict_types=1);
 
-    .logo {
-      display: inline-block;
-      margin-bottom: 10px;
-    }
+use PhpMyAdmin\Common;
+use PhpMyAdmin\Routing;
 
-    h1, h2 {
-      margin: 0;
-    }
+if (! defined('ROOT_PATH')) {
+    // phpcs:disable PSR1.Files.SideEffects
+    define('ROOT_PATH', __DIR__ . DIRECTORY_SEPARATOR);
+    // phpcs:enable
+}
 
-    nav {
-      background-color: #34495e;
-      padding: 10px;
-      text-align: center;
-    }
+if (PHP_VERSION_ID < 70205) {
+    die('<p>PHP 7.2.5+ is required.</p><p>Currently installed version is: ' . PHP_VERSION . '</p>');
+}
 
-    nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
+// phpcs:disable PSR1.Files.SideEffects
+define('PHPMYADMIN', true);
+// phpcs:enable
 
-    nav li {
-      display: inline-block;
-      margin: 0 10px;
-    }
+require_once ROOT_PATH . 'libraries/constants.php';
 
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      padding: 5px 10px;
-      border-radius: 5px;
-    }
+/**
+ * Activate autoloader
+ */
+if (! @is_readable(AUTOLOAD_FILE)) {
+    die(
+        '<p>File <samp>' . AUTOLOAD_FILE . '</samp> missing or not readable.</p>'
+        . '<p>Most likely you did not run Composer to '
+        . '<a href="https://docs.phpmyadmin.net/en/latest/setup.html#installing-from-git">'
+        . 'install library files</a>.</p>'
+    );
+}
 
-    nav a:hover {
-      background-color: #212529;
-    }
+require AUTOLOAD_FILE;
 
-    main {
-      padding: 20px;
-    }
+global $route, $containerBuilder, $request;
 
-    .container {
-      background-color: #34495e;
-      padding: 20px;
-      border-radius: 5px;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <img src="logo unikom.png"class="logo" height="100">
-    <h1>APLIKASI NILAI ONLINE</h1>
-    <h2>UNIVERSITAS KOMPUTER INDONESIA</h2>
-    <p>Jl. Dipatiukur No 112 s/d 114 - Bandung</p>
-  </header>
+Common::run();
 
-  <nav>
-    <ul>
-      <li><a href="#">HOME</a></li>
-      <li><a href="mahasiswa.php">MAHASISWA</a></li>
-      <li><a href="dosen.php">DOSEN</a></li>
-      <li><a href="nilai.php">NILAI</a></li>
-      <li><a href="absensi.php">ABSENSI</a></li>
-      <li><a href="login.php">LOGOUT</a></li>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br><strong><font size="6">SELAMAT DATANG DI HALAMAN ADMINISTRATOR</font></strong></br>
-      <br></br>
-      <br>Selamat datang di Website Aplikasi Nilai Online UNIKOM</br>
-      <br>Aplikasi ini dirancang untuk membantu para Mahasiswa agar lebih mudah mengetahui Nilai dari matakuliah yang ditempuh</br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      
-    
- 
+$dispatcher = Routing::getDispatcher();
+Routing::callControllerForRoute($request, $route, $dispatcher, $containerBuilder);
