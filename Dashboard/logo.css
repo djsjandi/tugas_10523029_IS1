@@ -1,0 +1,6 @@
+.logo {
+    display: block;
+    margin: 0 auto 50px; /* Mengatur margin bawah untuk memberi jarak antara logo dan judul */
+    max-width: 50px; /* Mengatur lebar maksimum logo */
+    height: 50px; /* Memastikan tinggi logo proporsional */
+}
